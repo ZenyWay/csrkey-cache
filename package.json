@@ -9,7 +9,13 @@
     "pretest": "mkdirp spec/reports && rimraf spec/reports/*",
     "test": "karma start spec/karma.conf.js --single-run",
     "test:debug": "karma start spec/karma.conf.js --no-single-run",
-    "test:coverage": "npm run pretest && karma start spec/karma-coverage.conf.js --single-run && remap-istanbul -i spec/reports/coverage/chrom*/coverage.json -o spec/reports/coverage -t html && http-server -c-1 -o -p 8888 spec/reports/coverage"
+    "test:coverage": "npm run pretest && karma start spec/karma-coverage.conf.js --single-run && remap-istanbul -i spec/reports/coverage/chrom*/coverage.json -o spec/reports/coverage -t html && http-server -c-1 -o -p 8888 spec/reports/coverage",
+    "pretest:ci": "mkdirp spec/reports/coverage && rimraf spec/reports/coverage",
+    "test:ci:coveralls": "cat spec/reports/coverage/lcov.info | sed -e 's/SF:\\.\\.\\//SF:/' | coveralls",
+    "test:ci": "karma start spec/karma-coverage.conf.js --single-run && remap-istanbul -i spec/reports/coverage/chrom*/coverage.json -o spec/reports/coverage/lcov.info -t lcovonly",
+    "test:web:serve": "http-server -c-1 -o -p 6510 spec/web",
+    "pretest:web": "rimraf spec/web/*.js",
+    "test:web": "browserify spec/*.spec.ts -p [ tsify --project spec ] -t aliasify -t uglifyify -o spec/web/index.spec.js && npm run test:web:serve"
   },
   "repository": {
     "type": "git",
@@ -40,6 +46,7 @@
     "@types/jasmine": "^2.5.35",
     "@types/lru-cache": "^2.5.32",
     "@types/node": "^4.0.30",
+    "aliasify": "^2.0.0",
     "browserify": "^13.1.0",
     "browserify-istanbul": "^2.0.0",
     "concurrently": "^3.1.0",
@@ -62,7 +69,8 @@
     "remap-istanbul": "^0.7.0",
     "rimraf": "^2.5.4",
     "tsify": "^2.0.2",
-    "typescript": "^2.0.3",
+    "typescript": "^2.0.6",
+    "uglifyify": "^3.0.4",
     "watchify": "^3.7.0"
   }
 }
