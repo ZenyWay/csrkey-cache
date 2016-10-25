@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "cache wrapper that generates its own cryptographically secure random keys. wraps lru-cache by default.",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "prebuild": "mkdirp dist && rimraf dist/*",
-    "build": "cpx src/**/*.ts dist && tsc -p src --outDir dist",
+    "predist": "mkdirp dist && rimraf dist/*",
+    "dist": "tsc -p src --outDir dist",
+    "prepublish": "npm run dist",
     "pretest": "mkdirp spec/reports && rimraf spec/reports/*",
     "test": "karma start spec/karma.conf.js --single-run",
     "test:debug": "karma start spec/karma.conf.js --no-single-run",
