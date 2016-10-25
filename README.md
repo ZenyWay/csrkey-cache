@@ -1,5 +1,4 @@
-# csrkey-cache [![Join the chat at https://gitter.im/ZenyWay/csrkey-cache](https://badges.gitter.im/ZenyWay/csrkey-cache.svg)](https://gitter.im/ZenyWay/csrkey-cache?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_
-content=badge)
+# csrkey-cache [![Join the chat at https://gitter.im/ZenyWay/csrkey-cache](https://badges.gitter.im/ZenyWay/csrkey-cache.svg)](https://gitter.im/ZenyWay/csrkey-cache?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![NPM](https://nodei.co/npm/csrkey-cache.png?compact=true)](https://nodei.co/npm/csrkey-cache/)
 [![build status](https://travis-ci.org/ZenyWay/csrkey-cache.svg?branch=master)](https://travis-ci.org/ZenyWay/csrkey-cache)
 [![coverage status](https://coveralls.io/repos/github/ZenyWay/csrkey-cache/badge.svg?branch=master)](https://coveralls.io/github/ZenyWay/csrkey-cache)
