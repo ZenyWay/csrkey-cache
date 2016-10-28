@@ -1,6 +1,6 @@
 {
   "name": "csrkey-cache",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "cache wrapper that generates its own cryptographically secure random keys. wraps lru-cache by default.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
