@@ -41,12 +41,12 @@
   },
   "homepage": "https://github.com/zenyway/csrkey-cache#readme",
   "dependencies": {
+    "@types/lru-cache": "^2.5.32",
     "lru-cache": "^4.0.1",
     "tslib": "^1.0.0"
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.35",
-    "@types/lru-cache": "^2.5.32",
     "@types/node": "^4.0.30",
     "aliasify": "^2.0.0",
     "browserify": "^13.1.0",
