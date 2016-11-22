@@ -1,6 +1,6 @@
 {
   "name": "csrkey-cache",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "cache wrapper that generates its own cryptographically secure random keys. wraps lru-cache by default.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,7 +17,7 @@
     "test:ci": "karma start spec/karma-coverage.conf.js --single-run && remap-istanbul -i spec/reports/coverage/chrom*/coverage.json -o spec/reports/coverage/lcov.info -t lcovonly",
     "test:web:serve": "http-server -c-1 -o -p 6510 spec/web",
     "pretest:web": "rimraf spec/web/*.js",
-    "test:web": "browserify spec/*.spec.ts -p [ tsify --project spec ] -t aliasify -t uglifyify -o spec/web/index.spec.js && npm run test:web:serve"
+    "test:web": "browserify spec/*.spec.ts -p [ tsify --project spec ] -t uglifyify -o spec/web/index.spec.js && npm run test:web:serve"
   },
   "repository": {
     "type": "git",
@@ -40,21 +40,19 @@
     "url": "https://github.com/zenyway/csrkey-cache/issues"
   },
   "homepage": "https://github.com/zenyway/csrkey-cache#readme",
+  "peerDependencies": {
+    "lru-cache": ">= 4.0"
+  },
   "dependencies": {
-    "@types/lru-cache": "^2.5.32",
-    "lru-cache": "^4.0.1",
-    "tslib": "^1.0.0"
+    "tslib": "^1.1.0"
   },
   "devDependencies": {
-    "@types/jasmine": "^2.5.35",
-    "@types/node": "^4.0.30",
-    "aliasify": "^2.0.0",
-    "browserify": "^13.1.0",
+    "@types/jasmine": "^2.5.38",
+    "@types/node": "^6.0.49",
+    "browserify": "^13.1.1",
     "browserify-istanbul": "^2.0.0",
-    "concurrently": "^3.1.0",
-    "coveralls": "^2.11.14",
-    "cpx": "^1.5.0",
-    "eslint": "^3.8.1",
+    "coveralls": "^2.11.15",
+    "eslint": "^3.10.2",
     "http-server": "^0.9.0",
     "istanbul": "^0.4.5",
     "jasmine-core": "^2.5.2",
@@ -68,11 +66,12 @@
     "karma-junit-reporter": "^1.1.0",
     "karma-safari-launcher": "^1.0.0",
     "karma-spec-reporter": "0.0.26",
+    "lru-cache": "^4.0.1",
     "mkdirp": "^0.5.1",
     "remap-istanbul": "^0.7.0",
     "rimraf": "^2.5.4",
-    "tsify": "^2.0.2",
-    "typescript": "^2.0.6",
+    "tsify": "^2.0.3",
+    "typescript": "^2.1.1",
     "uglifyify": "^3.0.4",
     "watchify": "^3.7.0"
   }

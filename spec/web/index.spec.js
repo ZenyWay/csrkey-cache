@@ -21389,10 +21389,12 @@ and limitations under the License.
 /* global global, define, System, Reflect, Promise */
 var __extends;
 var __assign;
+var __rest;
 var __decorate;
 var __param;
 var __metadata;
 var __awaiter;
+var __generator;
 (function (factory) {
     var root = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
     if (typeof System === "object" && typeof System.register === "function") {
@@ -21430,6 +21432,16 @@ var __awaiter;
         return t;
     };
 
+    __rest = function (s, e) {
+        var t = {};
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+            t[p] = s[p];
+        if (typeof Object.getOwnPropertySymbols === "function")
+            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+                t[p[i]] = s[p[i]];
+        return t;
+    };
+
     __decorate = function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -21448,19 +21460,50 @@ var __awaiter;
     __awaiter = function (thisArg, _arguments, P, generator) {
         return new (P || (P = Promise))(function (resolve, reject) {
             function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-            function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
             function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
             step((generator = generator.apply(thisArg, _arguments)).next());
         });
     };
 
+    __generator = function (thisArg, body) {
+        var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t;
+        return { next: verb(0), "throw": verb(1), "return": verb(2) };
+        function verb(n) { return function (v) { return step([n, v]); }; }
+        function step(op) {
+            if (f) throw new TypeError("Generator is already executing.");
+            while (_) try {
+                if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+                if (y = 0, t) op = [0, t.value];
+                switch (op[0]) {
+                    case 0: case 1: t = op; break;
+                    case 4: _.label++; return { value: op[1], done: false };
+                    case 5: _.label++; y = op[1]; op = [0]; continue;
+                    case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                    default:
+                        if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                        if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                        if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                        if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                        if (t[2]) _.ops.pop();
+                        _.trys.pop(); continue;
+                }
+                op = body.call(thisArg, _);
+            } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+            if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+        }
+    };
+
     exporter("__extends", __extends);
     exporter("__assign", __assign);
+    exporter("__rest", __rest);
     exporter("__decorate", __decorate);
     exporter("__param", __param);
     exporter("__metadata", __metadata);
     exporter("__awaiter", __awaiter);
+    exporter("__generator", __generator);
 });
+
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],137:[function(require,module,exports){
 (function (global){
@@ -22635,7 +22678,7 @@ function Node (value, prev, next, list) {
 }
 
 },{}],143:[function(require,module,exports){
-"use strict";var src_1=require("../src"),Buffer=require("buffer").Buffer,csrng,cache;beforeEach(function(){csrng=jasmine.createSpy("csrng").and.returnValue(Uint8Array.of(42)),cache=jasmine.createSpyObj("cache",["set","del","get","has"])}),describe("default export: getCache <V>(opts?: CsrKeyCacheFactoryOpts<V>): CsrKeyCache<V>",function(){var e;beforeEach(function(){e=jasmine.objectContaining({set:jasmine.any(Function),del:jasmine.any(Function),get:jasmine.any(Function),has:jasmine.any(Function)})}),describe("when called without arguments",function(){var t;beforeEach(function(){t=src_1.default()}),it("returns a CsrKeyCache<V> instance",function(){expect(t).toEqual(e)})}),describe("when called with { cache: Cache<string, V> }",function(){var t;beforeEach(function(){t=src_1.default({cache:cache}),t.set("foo",42),t.del("foo"),t.get("foo"),t.has("foo")}),it("returns a CsrKeyCache<V> instance that wraps the given cache instance",function(){expect(cache).toEqual(e),expect(cache.set).toHaveBeenCalledWith(jasmine.any(String),"foo",42),expect(cache.del).toHaveBeenCalledWith("foo"),expect(cache.get).toHaveBeenCalledWith("foo"),expect(cache.has).toHaveBeenCalledWith("foo")})}),describe("when called with { cache: CsrKeyCacheFactoryConfig<V> }",function(){var t,a;beforeEach(function(){t=src_1.default({cache:{max:1}});var e=t.set("foo"),n=t.set("bar");a={foo:t.get(e),bar:t.get(n)}}),it("returns a CsrKeyCache<V> instance that wraps an lru-cache instance with the given options",function(){expect(t).toEqual(e),expect(a).toEqual(jasmine.objectContaining({foo:void 0,bar:"bar"}))})}),describe("when called with { keylength: number }",function(){var t,a;beforeEach(function(){t=src_1.default({keylength:42}),a=Buffer.from(t.set("foo"),"base64")}),it("returns a CsrKeyCache<V> instance that generates random base64 keys of the given number of bytes",function(){expect(t).toEqual(e),expect(a.length).toBe(42)})}),describe("when called with { csrng: (length: number) => Uint8Array }",function(){var t,a;beforeEach(function(){t=src_1.default({csrng:csrng}),a=t.set("foo")}),it("returns a CsrKeyCache<V> instance that generates random base64 keys with the given random number generator",function(){expect(t).toEqual(e),expect(a).toBe(Buffer.from([42]).toString("base64")),expect(csrng).toHaveBeenCalledWith(jasmine.any(Number))})})}),describe("CsrKeyCache<V>",function(){var e;beforeEach(function(){e=src_1.default({cache:cache,keylength:6502,csrng:csrng})}),describe("set (val: V, expire?: number): string|false",function(){var t,a,n;beforeEach(function(){t=Buffer.from([42]).toString("base64");var c=!0;cache.set.and.callFake(function(){return c=!0}),cache.has.and.callFake(function(){return!(c=!c)}),a=e.set("bar"),cache.has.and.returnValue(!1),n=e.set("baz",6510)}),it("generates and returns a unique base64 string key from random bytes generated by the CSRNG ",function(){expect(a).toBe(t),expect(csrng).toHaveBeenCalledWith(6502),expect(csrng).toHaveBeenCalledTimes(3)}),it("stores the given `val` in the cache under the generated key ",function(){expect(cache.set.calls.argsFor(0)).toEqual([t,"bar",void 0]),expect(cache.set.calls.argsFor(1)).toEqual([t,"baz",6510])}),it("returns false upon failure",function(){expect(n).toBe(!1)})}),describe("del (key: string): void",function(){beforeEach(function(){e.del("foo")}),it("delegates to the `del` method of the underlying cache",function(){expect(cache.del).toHaveBeenCalledWith("foo")})}),describe("get (key: string): V",function(){var t;beforeEach(function(){cache.get.and.returnValue("bar"),t=e.get("foo")}),it("delegates to the `get` method of the underlying cache",function(){expect(cache.get).toHaveBeenCalledWith("foo"),expect(t).toBe("bar")})}),describe("has (key: string): boolean",function(){var t;beforeEach(function(){cache.has.and.returnValue(!0),t=e.has("foo")}),it("delegates to the `has` method of the underlying cache",function(){expect(cache.has).toHaveBeenCalledWith("foo"),expect(t).toBe(!0)})})});
+"use strict";var src_1=require("../src"),Buffer=require("buffer").Buffer,csrng,cache;beforeEach(function(){csrng=jasmine.createSpy("csrng").and.returnValue(Uint8Array.of(42)),cache=jasmine.createSpyObj("cache",["set","del","get","has"])}),describe("default export: getCache <V>(opts?: CsrKeyCacheFactoryOpts<V>): CsrKeyCache<V>",function(){var e;beforeEach(function(){e=jasmine.objectContaining({set:jasmine.any(Function),del:jasmine.any(Function),get:jasmine.any(Function),has:jasmine.any(Function)})}),describe("when called without arguments",function(){var t;beforeEach(function(){t=src_1.default()}),it("returns a CsrKeyCache<V> instance",function(){expect(t).toEqual(e)})}),describe("when called with { cache: Cache<string, V> }",function(){var t;beforeEach(function(){t=src_1.default({cache:cache}),t.set("foo",42),t.del("foo"),t.get("foo"),t.has("foo")}),it("returns a CsrKeyCache<V> instance that wraps the given cache instance",function(){expect(cache).toEqual(e),expect(cache.set).toHaveBeenCalledWith(jasmine.any(String),"foo",42),expect(cache.del).toHaveBeenCalledWith("foo"),expect(cache.get).toHaveBeenCalledWith("foo"),expect(cache.has).toHaveBeenCalledWith("foo")})}),describe("when called with { cache: LruCacheOptions<V> }",function(){var t,a;beforeEach(function(){t=src_1.default({cache:{max:1}});var e=t.set("foo"),n=t.set("bar");a={foo:t.get(e),bar:t.get(n)}}),it("returns a CsrKeyCache<V> instance that wraps an lru-cache instance with the given options",function(){expect(t).toEqual(e),expect(a).toEqual(jasmine.objectContaining({foo:void 0,bar:"bar"}))})}),describe("when called with { keylength: number }",function(){var t,a;beforeEach(function(){t=src_1.default({keylength:42}),a=Buffer.from(t.set("foo"),"base64")}),it("returns a CsrKeyCache<V> instance that generates random base64 keys of the given number of bytes",function(){expect(t).toEqual(e),expect(a.length).toBe(42)})}),describe("when called with { csrng: (length: number) => Uint8Array }",function(){var t,a;beforeEach(function(){t=src_1.default({csrng:csrng}),a=t.set("foo")}),it("returns a CsrKeyCache<V> instance that generates random base64 keys with the given random number generator",function(){expect(t).toEqual(e),expect(a).toBe(Buffer.from([42]).toString("base64")),expect(csrng).toHaveBeenCalledWith(jasmine.any(Number))})})}),describe("CsrKeyCache<V>",function(){var e;beforeEach(function(){e=src_1.default({cache:cache,keylength:6502,csrng:csrng})}),describe("set (val: V, expire?: number): string|false",function(){var t,a,n;beforeEach(function(){t=Buffer.from([42]).toString("base64");var c=!0;cache.set.and.callFake(function(){return c=!0}),cache.has.and.callFake(function(){return!(c=!c)}),a=e.set("bar"),cache.has.and.returnValue(!1),n=e.set("baz",6510)}),it("generates and returns a unique base64 string key from random bytes generated by the CSRNG ",function(){expect(a).toBe(t),expect(csrng).toHaveBeenCalledWith(6502),expect(csrng).toHaveBeenCalledTimes(3)}),it("stores the given `val` in the cache under the generated key ",function(){expect(cache.set.calls.argsFor(0)).toEqual([t,"bar",void 0]),expect(cache.set.calls.argsFor(1)).toEqual([t,"baz",6510])}),it("returns false upon failure",function(){expect(n).toBe(!1)})}),describe("del (key: string): void",function(){beforeEach(function(){e.del("foo")}),it("delegates to the `del` method of the underlying cache",function(){expect(cache.del).toHaveBeenCalledWith("foo")})}),describe("get (key: string): V",function(){var t;beforeEach(function(){cache.get.and.returnValue("bar"),t=e.get("foo")}),it("delegates to the `get` method of the underlying cache",function(){expect(cache.get).toHaveBeenCalledWith("foo"),expect(t).toBe("bar")})}),describe("has (key: string): boolean",function(){var t;beforeEach(function(){cache.has.and.returnValue(!0),t=e.has("foo")}),it("delegates to the `has` method of the underlying cache",function(){expect(cache.has).toHaveBeenCalledWith("foo"),expect(t).toBe(!0)})})});
 },{"../src":144,"buffer":45}],144:[function(require,module,exports){
-"use strict";function isCache(e){return!!e&&[e.set,e.get,e.del,e.has].every(isFunction)}function isFunction(e){return"function"==typeof e}function getLruCache(e){return LRU(tslib_1.__assign(lruDefaults,e))}var LRU=require("lru-cache"),Buffer=require("buffer").Buffer,tslib_1=require("tslib"),configDefaults={keylength:32},CsrKeyCacheClass=function(){function e(e,t,r){this.cache=e,this.keylength=t,this.getRandomBytes=r}return e.prototype.set=function(e,t){var r=this.getNewKey();return this.cache.set(r,e,t),this.cache.has(r)&&r},e.prototype.del=function(e){return this.cache.del(e)},e.prototype.get=function(e){return this.cache.get(e)},e.prototype.has=function(e){return this.cache.has(e)},e.prototype.getNewKey=function(){var e=this.getRandomBytes(this.keylength),t=Buffer.from(e).toString("base64");return this.cache.has(t)?this.getNewKey():t},e.getInstance=function(t){var r=tslib_1.__assign({},configDefaults,t),n=isCache(r.cache)?r.cache:getLruCache(r.cache),s=r.csrng||require("crypto").randomBytes;return new e(n,r.keylength,s)},e}(),lruDefaults={max:1024,maxAge:9e5},getCsrKeyCache=CsrKeyCacheClass.getInstance;Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=getCsrKeyCache;
+"use strict";function isCache(e){return!!e&&[e.set,e.get,e.del,e.has].every(isFunction)}function isFunction(e){return"function"==typeof e}function getLruCache(e){var t=require("lru-cache"),r=tslib_1.__assign({},lruDefaults,e);return t(r)}var Buffer=require("buffer").Buffer,tslib_1=require("tslib"),configDefaults={keylength:32},CsrKeyCacheClass=function(){function e(e,t,r){this.cache=e,this.keylength=t,this.getRandomBytes=r}return e.prototype.set=function(e,t){var r=this.getNewKey();return this.cache.set(r,e,t),this.cache.has(r)&&r},e.prototype.del=function(e){return this.cache.del(e)},e.prototype.get=function(e){return this.cache.get(e)},e.prototype.has=function(e){return this.cache.has(e)},e.prototype.getNewKey=function(){var e=this.getRandomBytes(this.keylength),t=Buffer.from(e).toString("base64");return this.cache.has(t)?this.getNewKey():t},e}();CsrKeyCacheClass.getInstance=function(e){var t=tslib_1.__assign({},configDefaults,e),r=isCache(t.cache)?t.cache:getLruCache(t.cache),s=t.csrng||require("crypto").randomBytes;return new CsrKeyCacheClass(r,t.keylength,s)};var lruDefaults={max:1024,maxAge:9e5},getCsrKeyCache=CsrKeyCacheClass.getInstance;Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=getCsrKeyCache;
 },{"buffer":45,"crypto":53,"lru-cache":94,"tslib":136}]},{},[143]);

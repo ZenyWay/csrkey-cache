@@ -64,7 +64,7 @@ describe('default export: ' +
       expect(cache.has).toHaveBeenCalledWith('foo')
     })
   })
-  describe('when called with { cache: CsrKeyCacheFactoryConfig<V> }', () => {
+  describe('when called with { cache: LruCacheOptions<V> }', () => {
     let csrKeyCache: any
     let result: any
     beforeEach(() => {

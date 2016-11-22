@@ -12,7 +12,6 @@
  * Limitations under the License.
  */
 ;
-import * as LRU from 'lru-cache'
 const Buffer = require('buffer').Buffer // incomplete type definitions
 import { __assign as assign } from 'tslib'
 
@@ -36,10 +35,10 @@ export interface CsrKeyCacheFactoryConfig<V> {
    * * `max: 1024` // max elements
    * * `maxAge: 15 * 60 * 1000 // ms`
    *
-   * @type {Cache<string, V>|LRU.Options<V>}
+   * @type {Cache<string, V>|LruCacheOptions<V>}
    * @memberOf CsrKeyCacheFactoryConfig
    */
-  cache?: Cache<string, V>|LRU.Options<V>
+  cache?: Cache<string, V>|LruCacheOptions<V>
   /**
    * length of generated keys.
    *
@@ -74,6 +73,82 @@ export interface Csrng {
    * @memberOf Csrng
    */
   (length: number): Uint8Array
+}
+
+/**
+ * options for [lru-cache]{@link https://www.npmjs.com/package/lru-cache#options}
+ *
+ * @template V
+ *
+ * @export
+ * @interface LruCacheOptions
+ */
+export interface LruCacheOptions<V> {
+  /**
+   * The maximum size of the cache,
+   * checked by applying the length function to all values in the cache.
+   * Not setting this is kind of silly,
+   * since that's the whole purpose of this lib, but it defaults to Infinity.
+   *
+   * @type {number}
+   * @memberOf LruCacheOptions
+   */
+  max?: number
+  /**
+   * Maximum age in ms.
+   * Items are not pro-actively pruned out as they age,
+   * but if you try to get an item that is too old,
+   * it'll drop it and return `undefined` instead of giving it to you.
+   *
+   * @type {number}
+   * @memberOf LruCacheOptions
+   */
+  maxAge?: number
+  /**
+   * Function that is used to calculate the length of stored items.
+   *
+   * If you're storing strings or buffers,
+   * then you probably want to do something like
+   * `function(n, key){return n.length}`.
+   *
+   * The default is `function(){return 1}`,
+   * which is fine if you want to store max like-sized things.
+   *
+   * The item is passed as the first argument,
+   * and the key is passed as the second argumnet.
+   *
+   * @type {(value: V)=>number}
+   * @memberOf LruCacheOptions
+   */
+  length?: (value: V) => number
+  /**
+   * Function that is called on items when they are dropped from the cache.
+   * This can be handy if you want to close file descriptors
+   * or do other cleanup tasks when items are no longer accessible.
+   *
+   * Called with key, value.
+   *
+   * It's called before actually removing the item from the internal cache,
+   * so if you want to immediately put it back in,
+   * you'll have to do that in a nextTick or setTimeout callback
+   * or it won't do anything.
+   *
+   * @type {(key:any,value:V)=>void}
+   * @memberOf LruCacheOptions
+   */
+  dispose?: (key: any, value: V) => void
+  /**
+   * By default, if you set a maxAge,
+   * it'll only actually pull stale items out of the cache when you get(key).
+   * (That is, it's not pre-emptively doing a setTimeout or anything.)
+   * * If you set `stale:true`, it'll return the stale value before deleting it.
+   * * If you don't set this, then it'll return `undefined`
+   * when you try to get a stale entry, as if it had already been deleted.
+   *
+   * @type {boolean}
+   * @memberOf LruCacheOptions
+   */
+  stale?: boolean
 }
 
 /**
@@ -244,13 +319,15 @@ function isFunction (val: any): val is Function {
   return typeof val === 'function'
 }
 
-const lruDefaults: LRU.Options<any> = {
+const lruDefaults: LruCacheOptions<any> = {
   max: 1024, // max elements
   maxAge: 15 * 60 * 1000 // ms
 }
 
-function getLruCache <V>(opts?: LRU.Options<V>): Cache<string, V> {
-  return LRU<V>(assign(lruDefaults, opts))
+function getLruCache <V>(opts?: LruCacheOptions<V>): Cache<string, V> {
+  const newLruCache = require('lru-cache')
+  const config = assign({}, lruDefaults, opts)
+  return newLruCache(config)
 }
 
 /**
