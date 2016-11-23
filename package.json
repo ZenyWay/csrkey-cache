@@ -1,6 +1,6 @@
 {
   "name": "csrkey-cache",
-  "version": "2.0.0",
+  "version": "1.1.0",
   "description": "cache wrapper that generates its own cryptographically secure random keys. wraps lru-cache by default.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -40,10 +40,8 @@
     "url": "https://github.com/zenyway/csrkey-cache/issues"
   },
   "homepage": "https://github.com/zenyway/csrkey-cache#readme",
-  "peerDependencies": {
-    "lru-cache": ">= 4.0"
-  },
   "dependencies": {
+    "lru-cache": "^4.0.1",
     "tslib": "^1.1.0"
   },
   "devDependencies": {
@@ -66,7 +64,6 @@
     "karma-junit-reporter": "^1.1.0",
     "karma-safari-launcher": "^1.0.0",
     "karma-spec-reporter": "0.0.26",
-    "lru-cache": "^4.0.1",
     "mkdirp": "^0.5.1",
     "remap-istanbul": "^0.7.0",
     "rimraf": "^2.5.4",

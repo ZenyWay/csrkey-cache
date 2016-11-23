@@ -7,6 +7,7 @@ node_modules/
 spec/
 src/
 tmp/
+.vscode/
 **/*.log
 **/*.tgz
 

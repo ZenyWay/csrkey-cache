@@ -22,7 +22,7 @@ cache.has(key) // false
 ```
 
 # <a name="api"></a> API
-run the [unit tests](https://cdn.rawgit.com/ZenyWay/csrkey-cache/v2.0.0/spec/web/index.html)
+run the [unit tests](https://cdn.rawgit.com/ZenyWay/csrkey-cache/v1.1.0/spec/web/index.html)
 in your browser.
 
 note that [`lru-cache`](https://www.npmjs.com/package/lru-cache)
