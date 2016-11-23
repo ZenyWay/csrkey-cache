@@ -6,8 +6,7 @@
 
 a cache wrapper that generates its own cryptographically secure random keys.
 
-by default, this module wraps [`lru-cache`](https://www.npmjs.com/package/lru-cache),
-defined as a [peer dependency](https://docs.npmjs.com/files/package.json#peerdependencies).
+by default, this module wraps [`lru-cache`](https://www.npmjs.com/package/lru-cache).
 
 # <a name="example"></a> EXAMPLE
 ```javascript
@@ -27,10 +26,6 @@ in your browser.
 
 note that [`lru-cache`](https://www.npmjs.com/package/lru-cache)
 is the cache wrapped by default.
-it is defined as a
-[peer dependency](https://docs.npmjs.com/files/package.json#peerdependencies)
-and should hence be explicitely added as a dependency in client modules
-relying on the default cache.
 
 # <a name="contributing"></a> CONTRIBUTING
 see the [contribution guidelines](./CONTRIBUTING.md)
