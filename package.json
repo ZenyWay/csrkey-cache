@@ -41,6 +41,7 @@
   },
   "homepage": "https://github.com/zenyway/csrkey-cache#readme",
   "dependencies": {
+    "@types/base64-js": "^1.2.5",
     "base64-js": "^1.2.0",
     "lru-cache": "^4.0.1",
     "randombytes": "^2.0.3",
