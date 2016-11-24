@@ -12,7 +12,7 @@
  * Limitations under the License.
  */
 ;
-const Buffer = require('buffer').Buffer // incomplete type definitions
+import base64 = require('base64-js')
 import { __assign as assign } from 'tslib'
 
 /**
@@ -306,7 +306,7 @@ class CsrKeyCacheClass<V> implements CsrKeyCache<V> {
    */
   private getNewKey (): string {
     const rnd = this.getRandomBytes(this.keylength)
-    const key = Buffer.from(rnd).toString('base64')
+    const key = base64.fromByteArray(rnd)
     return !this.cache.has(key) ? key : this.getNewKey() // try another on collision
   }
 }
