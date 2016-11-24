@@ -268,7 +268,7 @@ class CsrKeyCacheClass<V> implements CsrKeyCache<V> {
     const opts = assign({}, configDefaults, config)
     let cache: Cache<string, V>
     = isCache(opts.cache) ? opts.cache : getLruCache<V>(opts.cache)
-    let getRandomBytes: Csrng = opts.csrng || require('crypto').randomBytes
+    let getRandomBytes: Csrng = opts.csrng || require('randombytes')
 
     return new CsrKeyCacheClass<V>(cache, opts.keylength, getRandomBytes)
   }
