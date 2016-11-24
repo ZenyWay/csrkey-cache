@@ -13,7 +13,7 @@
  */
 ;
 import getCache from '../src'
-const Buffer = require('buffer').Buffer
+import base64 = require('base64-js')
 
 let csrng: any
 let cache: any
@@ -91,7 +91,7 @@ describe('default export: ' +
     let key: any
     beforeEach(() => {
       csrKeyCache = getCache({ keylength: 42 })
-      key = Buffer.from(csrKeyCache.set('foo'), 'base64')
+      key = base64.toByteArray(csrKeyCache.set('foo'))
     })
 
     it('returns a CsrKeyCache<V> instance that generates random base64 keys ' +
@@ -112,7 +112,7 @@ describe('default export: ' +
     it('returns a CsrKeyCache<V> instance that generates random base64 keys ' +
     'with the given random number generator', () => {
       expect(csrKeyCache).toEqual(csrKeyCacheInterface)
-      expect(key).toBe(Buffer.from([42]).toString('base64'))
+      expect(key).toBe('Kg==') // Buffer.from([42]).toString('base64')
       expect(csrng).toHaveBeenCalledWith(jasmine.any(Number))
     })
   })
@@ -129,7 +129,7 @@ describe('CsrKeyCache<V>', () => {
     let key: any
     let success: any
     beforeEach(() => {
-      b64of42 = Buffer.from([42]).toString('base64')
+      b64of42 = 'Kg==' // Buffer.from([42]).toString('base64')
       let hasKey: boolean = true // simulate conflict after first call to csrng
       cache.set.and.callFake(() => hasKey = true)
       cache.has.and.callFake(() => !(hasKey = !hasKey)) // return hasKey then invert it

@@ -17,7 +17,7 @@
     "test:ci": "karma start spec/karma-coverage.conf.js --single-run && remap-istanbul -i spec/reports/coverage/chrom*/coverage.json -o spec/reports/coverage/lcov.info -t lcovonly",
     "test:web:serve": "http-server -c-1 -o -p 6510 spec/web",
     "pretest:web": "rimraf spec/web/*.js",
-    "test:web": "browserify spec/*.spec.ts -p [ tsify --project spec ] -t uglifyify -o spec/web/index.spec.js && npm run test:web:serve"
+    "test:web": "browserify spec/*.spec.ts -p [ tsify --project spec ] --exclude 'randombytes' --exclude 'base64-js' --exclude 'lru-cache' --exclude 'tslib' -t uglifyify -o spec/web/index.spec.js && npm run test:web:serve"
   },
   "repository": {
     "type": "git",
@@ -73,5 +73,11 @@
     "typescript": "^2.1.1",
     "uglifyify": "^3.0.4",
     "watchify": "^3.7.0"
+  },
+  "aliasify": {
+    "aliases": {
+      "base64-js": "base64Js",
+      "lru-cache": "lruCache"
+    }
   }
 }
