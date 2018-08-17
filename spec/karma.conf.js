@@ -1,5 +1,8 @@
-/*
- * Copyright 2016 Stephane M. Catala
+/**
+ * Copyright 2018 Stephane M. Catala
+ * @author Stephane M. Catala
+ * @license Apache@2.0
+ *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * Limitations under the License.
  */
-;
+//
 var browsers = [
   'Firefox',
   process.env.TRAVIS ? 'Chrome--no-sandbox' : 'Chrome'
@@ -28,6 +31,9 @@ module.exports = function (config) {
     files: [
       '**/*.spec.ts'
     ],
+    mime: {
+      'text/x-typescript': [ 'ts', 'tsx' ] // workaround for Chrome, as in https://github.com/angular/angular-cli/issues/2125
+    },
     exclude: [
       'reports/**/*',
       'support/**/*'
