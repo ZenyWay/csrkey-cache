@@ -1,5 +1,7 @@
-/*
- * Copyright 2016 Stephane M. Catala
+/**
+ * Copyright 2018 Stephane M. Catala
+ * @author Stephane M. Catala
+ * @license Apache@2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * Limitations under the License.
  */
-;
+//
 import getCache from '../src'
 import base64 = require('base64-js')
 

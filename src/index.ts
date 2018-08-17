@@ -1,5 +1,7 @@
-/*
- * Copyright 2016 Stephane M. Catala
+/**
+ * Copyright 2018 Stephane M. Catala
+ * @author Stephane M. Catala
+ * @license Apache@2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * Limitations under the License.
  */
-;
+//
 import base64 = require('base64-js')
-import { __assign as assign } from 'tslib'
 
 /**
  * factory for a generic, minimal
@@ -25,7 +26,7 @@ import { __assign as assign } from 'tslib'
  * @param {CsrKeyCacheFactoryConfig} [config]
  */
 export interface CsrKeyCacheFactory {
-  <V>(config?: CsrKeyCacheFactoryConfig<V>): CsrKeyCache<V>
+  <V>(config?: Partial<CsrKeyCacheFactoryConfig<V>>): CsrKeyCache<V>
 }
 
 export interface CsrKeyCacheFactoryConfig<V> {
@@ -38,14 +39,14 @@ export interface CsrKeyCacheFactoryConfig<V> {
    * @type {Cache<string, V>|LruCacheOptions<V>}
    * @memberOf CsrKeyCacheFactoryConfig
    */
-  cache?: Cache<string, V>|LruCacheOptions<V>
+  cache: Cache<string, V> | LruCacheOptions<V>
   /**
    * length of generated keys.
    *
    * @type {number=32}
    * @memberOf CsrKeyCacheFactoryConfig
    */
-  keylength?: number
+  keylength: number
   /**
    * default: `crypto#randomBytes` from browserify's `crypto` module
    * (available as standalone module on npm: `randombytes`),
@@ -56,7 +57,7 @@ export interface CsrKeyCacheFactoryConfig<V> {
    * @type {Csrng=crypto#randomBytes}
    * @memberOf CsrKeyCacheFactoryConfig
    */
-  csrng?: Csrng
+  csrng: Csrng
 }
 
 /**
@@ -169,7 +170,7 @@ export interface CsrKeyCache<V> {
    *
    * @memberOf CsrKeyCache
    */
-  set (val: V, expire?: number): string|false
+  set (val: V, expire?: number): string | false
   /**
    * delete the cache entry under the given `key`.
    *
@@ -251,7 +252,7 @@ export interface Cache<K, V> {
   has (key: K): boolean
 }
 
-const configDefaults = {
+const SPEC_DEFAULTS = {
   keylength: 32
 }
 
@@ -263,17 +264,19 @@ const configDefaults = {
  * @template V
  */
 class CsrKeyCacheClass<V> implements CsrKeyCache<V> {
-  static readonly getInstance: CsrKeyCacheFactory =
-  function <V>(config?: CsrKeyCacheFactoryConfig<V>): CsrKeyCache<V> {
-    const opts = assign({}, configDefaults, config)
-    let cache: Cache<string, V>
-    = isCache(opts.cache) ? opts.cache : getLruCache<V>(opts.cache)
-    let getRandomBytes: Csrng = opts.csrng || require('randombytes')
+  static readonly getInstance: CsrKeyCacheFactory = function <V>(
+    opts?: Partial<CsrKeyCacheFactoryConfig<V>>
+  ): CsrKeyCache<V> {
+    const specs = { ...SPEC_DEFAULTS, ...opts }
+    const cache = isCache<string, V>(specs.cache)
+    ? specs.cache
+    : getLruCache<V>(specs.cache)
+    const getRandomBytes: Csrng = specs.csrng || require('randombytes')
 
-    return new CsrKeyCacheClass<V>(cache, opts.keylength, getRandomBytes)
+    return new CsrKeyCacheClass<V>(cache, specs.keylength, getRandomBytes)
   }
 
-  set (val: V, expire?: number): string|false {
+  set (val: V, expire?: number): string | false {
     const key = this.getNewKey()
     this.cache.set(key, val, expire)
     return this.cache.has(key) && key
@@ -311,7 +314,7 @@ class CsrKeyCacheClass<V> implements CsrKeyCache<V> {
   }
 }
 
-function isCache <K,V>(val: any): val is Cache<K,V> {
+function isCache <K,V> (val: any): val is Cache<K,V> {
   return !!val && [ val.set, val.get, val.del, val.has ].every(isFunction)
 }
 
@@ -319,14 +322,14 @@ function isFunction (val: any): val is Function {
   return typeof val === 'function'
 }
 
-const lruDefaults: LruCacheOptions<any> = {
+const LRU_CACHE_DEFAULTS: LruCacheOptions<any> = {
   max: 1024, // max elements
   maxAge: 15 * 60 * 1000 // ms
 }
 
-function getLruCache <V>(opts?: LruCacheOptions<V>): Cache<string, V> {
+function getLruCache <V> (opts?: LruCacheOptions<V>): Cache<string, V> {
   const newLruCache = require('lru-cache')
-  const config = assign({}, lruDefaults, opts)
+  const config = { ...LRU_CACHE_DEFAULTS, ...opts }
   return newLruCache(config)
 }
 

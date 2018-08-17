@@ -8,6 +8,8 @@ a cache wrapper that generates its own cryptographically secure random keys.
 
 by default, this module wraps [`lru-cache`](https://www.npmjs.com/package/lru-cache).
 
+ES5. TypeScript support. 582 bytes gzip.
+
 # <a name="example"></a> EXAMPLE
 ```javascript
 import getCache from 'csrkey-cache'
@@ -21,7 +23,15 @@ cache.has(key) // false
 ```
 
 # <a name="api"></a> API
-run the [unit tests](https://cdn.rawgit.com/ZenyWay/csrkey-cache/v1.1.3/spec/web/index.html)
+`ES5` and [`Typescript`](http://www.typescriptlang.org/) compatible.
+coded in `Typescript 3`, transpiled to `ES5`.
+
+`main` export is the minified version.
+if required, e.g. for development in JS without type checks from type declarations,
+import `resolve-call/index.js` instead,
+which adds argument type assertion when `NODE_ENV !== 'production'`.
+
+for a detailed specification of the API, run the [unit tests](https://cdn.rawgit.com/ZenyWay/csrkey-cache/v1.1.4/spec/web/index.html)
 in your browser.
 
 note that [`lru-cache`](https://www.npmjs.com/package/lru-cache)
@@ -31,7 +41,7 @@ is the cache wrapped by default.
 see the [contribution guidelines](./CONTRIBUTING.md)
 
 # <a name="license"></a> LICENSE
-Copyright 2016 Stéphane M. Catala
+Copyright 2018 Stéphane M. Catala
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
