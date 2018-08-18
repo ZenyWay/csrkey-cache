@@ -38,7 +38,7 @@ module.exports = function (config) {
       'reports/**/*',
       'support/**/*'
     ],
-    frameworks: [ 'browserify', 'jasmine' ], // include browserify first
+    frameworks: [ 'browserify', 'source-map-support', 'jasmine' ], // include browserify first
     browsers: browsers,
     customLaunchers: {
       'Chrome--no-sandbox': { // TravisCI
@@ -50,6 +50,7 @@ module.exports = function (config) {
     singleRun: true,
     plugins: [
       'karma-browserify',
+      'karma-source-map-support',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-safari-launcher',
@@ -64,12 +65,7 @@ module.exports = function (config) {
     },
     browserify: { // https://github.com/nikku/karma-browserify#plugins
       debug: true,
-      plugin: [ [ 'tsify' ] ] /*,
-      configure: function (bundle) {
-        bundle.on('prebundle', function () {
-          bundle.require('_cut_', { expose: '' }) // stub dependencies
-        })
-      } */
+      plugin: [ [ 'tsify' ] ]
     },
     reporters: [ // 'progress' | 'dots' | 'kjhtml' | 'junit' | 'spec' | ' coverage'
       'spec', 'kjhtml', 'junit'

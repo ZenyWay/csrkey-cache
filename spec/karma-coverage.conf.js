@@ -14,6 +14,7 @@
  * Limitations under the License.
  */
 //
+var path = require('path')
 var assign = require('tslib').__assign
 
 module.exports = function (config) {
@@ -21,41 +22,31 @@ module.exports = function (config) {
   require('./karma.conf.js')(config) // setup test config
   config.set({ // overwrites arrays
     plugins: (config.plugins || []).concat([
-      'karma-coverage'
+      'karma-coverage-istanbul-reporter'
     ]),
     browserify: assign({}, config.browserify, { // https://github.com/nikku/karma-browserify#plugins
       transform: (config.browserify.transform || []).concat([
         [
-          'browserify-istanbul', {
-            'ignore': '**/spec/**',
-            'instrumenterConfig': { 'embedSource': true }
+          'browserify-istanbul',
+          {
+            'ignore': [ '**/node_modules/**', '**/spec/**' ],
+            'instrumenterConfig': {
+              'compact': false,
+              'produceSourceMap': true
+            }
           }
         ]
       ])
     }),
     reporters: [
-      'spec', 'coverage'
+      'spec', 'coverage-istanbul'
     ],
-    coverageReporter: {
-      dir: './reports/coverage',
-      reporters: [
-        {
-          type: 'json',
-          subdir: browsername,
-          file: 'coverage.json'
-        }
-      ]
+    coverageIstanbulReporter: {
+      dir: path.join(__dirname, 'reports/coverage'),
+      reports: ['json', 'html', 'lcovonly', 'text-summary'],
+      'report-config': {
+        html: { subdir: 'html' }
+      }
     }
   })
-/*
-  config.set({ // overwrites arrays
-    coverageReporter: assign({}, config.coverageReporter, {
-      dir: '../reports/coverage/proxy'
-    })
-  })
-*/
-}
-
-function browsername (browser) {
-  return browser.toLowerCase().split(/[ /-]/)[0]
 }
