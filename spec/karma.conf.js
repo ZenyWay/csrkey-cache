@@ -3,7 +3,6 @@
  * @author Stephane M. Catala
  * @license Apache@2.0
  *
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * Limitations under the License.
  */
-//
+;
 var browsers = [
   'Firefox',
   process.env.TRAVIS ? 'Chrome--no-sandbox' : 'Chrome'
@@ -38,7 +37,7 @@ module.exports = function (config) {
       'reports/**/*',
       'support/**/*'
     ],
-    frameworks: [ 'browserify', 'source-map-support', 'jasmine' ], // include browserify first
+    frameworks: [ 'browserify', 'jasmine' ], // include browserify first
     browsers: browsers,
     customLaunchers: {
       'Chrome--no-sandbox': { // TravisCI
@@ -50,7 +49,6 @@ module.exports = function (config) {
     singleRun: true,
     plugins: [
       'karma-browserify',
-      'karma-source-map-support',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-safari-launcher',
